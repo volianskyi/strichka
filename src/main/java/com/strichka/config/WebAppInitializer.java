@@ -1,11 +1,12 @@
 package com.strichka.config;
 
+import com.strichka.security.WebSecurityConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {RootConfig.class, JpaConfig.class};
+        return new Class[] {RootConfig.class, WebSecurityConfigurer.class, JpaConfig.class};
     }
 
     @Override
