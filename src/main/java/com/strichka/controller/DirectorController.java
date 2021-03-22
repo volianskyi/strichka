@@ -4,6 +4,7 @@ import com.strichka.entity.Director;
 import com.strichka.entity.Movie;
 import com.strichka.service.DirectorService;
 import com.strichka.service.MovieService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ public class DirectorController {
   }
 
   @GetMapping("/save")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public String save(Model model) {
     Director director = new Director();
     model.addAttribute("director", director);
@@ -32,6 +34,7 @@ public class DirectorController {
   }
 
   @PostMapping("/save")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public String save(@Validated @ModelAttribute("director") Director director, BindingResult result) {
     if (result.hasErrors()) {
       return "director-form";
@@ -41,6 +44,7 @@ public class DirectorController {
   }
 
   @GetMapping("/update/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public String update(@PathVariable long id, Model model) {
     Director director = directorService.findById(id);
     model.addAttribute("director", director);
@@ -48,6 +52,7 @@ public class DirectorController {
   }
 
   @PostMapping("/update")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public String update(@Validated @ModelAttribute("director") Director director, BindingResult result) {
     if (result.hasErrors()) {
       return "update-director";
@@ -57,6 +62,7 @@ public class DirectorController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   public String read(@PathVariable long id, Model model) {
     Director director = directorService.getDirectorFetchMovie(id);
     model.addAttribute("director", director);
@@ -64,6 +70,7 @@ public class DirectorController {
   }
 
   @GetMapping("/delete/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public String delete(@PathVariable long id) {
     Director director = directorService.getDirectorFetchMovie(id);
     unsetDirectorFromAllMovies(id, director);
@@ -78,6 +85,7 @@ public class DirectorController {
   }
 
   @GetMapping
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   public String getAll(Model model) {
     List<Director> directorList = directorService.findAll();
     model.addAttribute("directors", directorList);

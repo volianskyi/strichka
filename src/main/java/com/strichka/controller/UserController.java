@@ -47,8 +47,9 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER') and authentication.principal.id == #id")
     @GetMapping("/update/{id}")
-    public String update(@PathVariable long id, Model model) {
+    public String update(@PathVariable Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.findAll());
@@ -65,12 +66,14 @@ public class UserController {
 
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER') and authentication.principal.id == #id")
     public String delete(@PathVariable long id) {
         userService.remove(userService.findById(id));
         return "redirect:/user";
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public String getAll(Model model) {
          List<User> users = userService.findAll();
          model.addAttribute("users", users);
