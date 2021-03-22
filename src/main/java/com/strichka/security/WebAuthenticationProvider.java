@@ -30,7 +30,7 @@ public class WebAuthenticationProvider implements AuthenticationProvider {
 
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             return new UsernamePasswordAuthenticationToken(
-                    userDetails.getUsername(),
+                    userDetails,
                     userDetails.getPassword(),
                     userDetails.getAuthorities());
         }
