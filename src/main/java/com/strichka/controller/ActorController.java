@@ -1,7 +1,9 @@
 package com.strichka.controller;
 
 import com.strichka.entity.Actor;
+import com.strichka.loging.LoggingAspect;
 import com.strichka.service.ActorService;
+import org.apache.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping("/actor")
 public class ActorController {
 
+    private static final Logger logger = Logger.getLogger(ActorController.class);
+
     private final ActorService actorService;
 
     public ActorController(ActorService actorService) {
@@ -26,6 +30,7 @@ public class ActorController {
     public String create(Model model) {
         Actor actor = new Actor();
         model.addAttribute("actor", actor);
+        logger.info("Open actor save page...");
         return "actor-form";
     }
 
@@ -36,6 +41,7 @@ public class ActorController {
             return "actor-form";
         }
         actorService.save(actor);
+        logger.info("Created actor " + actor);
         return "redirect:/actor";
     }
 
@@ -44,6 +50,7 @@ public class ActorController {
     public String update(@PathVariable long id, Model model) {
         Actor actor = actorService.findById(id);
         model.addAttribute("actor", actor);
+        logger.info("Open actor update page...");
         return "update-actor";
     }
 
@@ -54,6 +61,7 @@ public class ActorController {
             return "update-actor";
         }
         actorService.save(actor);
+        logger.info("Updated actor " + actor);
         return "redirect:/actor/" + actor.getId();
     }
 
@@ -61,6 +69,7 @@ public class ActorController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public String read(@PathVariable long id, Model model) {
         model.addAttribute("actor", actorService.getActorWithFetchMovies(id));
+        logger.info("Open actor info page");
         return "actor-info";
     }
 
@@ -68,6 +77,7 @@ public class ActorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String delete(@PathVariable long id) {
         actorService.remove(actorService.findById(id));
+        logger.info("Deleted actor with id: " + id);
         return "redirect:/actor";
     }
 
@@ -76,6 +86,7 @@ public class ActorController {
     public String getAll(Model model) {
         List<Actor> actors = actorService.findAll();
         model.addAttribute("actors", actors);
+        logger.info("Return all actors");
         return "list-actor";
     }
 }

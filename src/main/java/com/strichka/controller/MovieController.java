@@ -1,7 +1,9 @@
 package com.strichka.controller;
 
 import com.strichka.entity.*;
+import com.strichka.loging.LoggingAspect;
 import com.strichka.service.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/")
 public class MovieController {
 
+    private static final Logger logger = Logger.getLogger(MovieController.class);
+
     private final MovieService movieService;
     private final ActorService actorService;
     private final GenreService genreService;
@@ -36,6 +40,7 @@ public class MovieController {
 
     @GetMapping("login")
     public String getLogin() {
+        logger.info("Logging page");
         return "login";
     }
 
@@ -44,6 +49,7 @@ public class MovieController {
     public String create(Model model) {
         Movie movie = new Movie();
         model.addAttribute("movie", movie);
+        logger.info("Open movie save page...");
         return "movie-form";
     }
 
@@ -54,6 +60,7 @@ public class MovieController {
             return "movie-form";
         }
         movieService.save(movie);
+        logger.info("Created movie " + movie);
         return "redirect:/";
     }
 
@@ -70,6 +77,8 @@ public class MovieController {
         model.addAttribute("actors", actorList);
         model.addAttribute("genres", genreList);
         model.addAttribute("movie", movie);
+
+        logger.info("Open movie info page");
         return "movie-info";
     }
 
@@ -80,6 +89,7 @@ public class MovieController {
         Movie movie = movieService.findById(id);
 
         model.addAttribute("movie", movie);
+        logger.info("Open movie update page...");
         return "update-movie";
     }
 
@@ -90,6 +100,7 @@ public class MovieController {
             return "update-movie";
         }
         movieService.save(movie);
+        logger.info("Updated movie " + movie);
         return "redirect:/movie/" + movie.getId();
     }
 
@@ -97,6 +108,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String delete(@PathVariable long id) {
         movieService.remove(movieService.findById(id));
+        logger.info("Deleted movie with id: " + id);
         return "redirect:/";
     }
 
@@ -105,6 +117,7 @@ public class MovieController {
     public String getAll(Model model) {
         List<Movie> movies = movieService.findAll();
         model.addAttribute("movies", movies);
+        logger.info("Return all movies");
         return "list-movie";
     }
 
@@ -113,6 +126,7 @@ public class MovieController {
     public String getAllByCountry(@PathVariable String country, Model model) {
         List<Movie> movies = movieService.findAllByCountry(country);
         model.addAttribute("movies", movies);
+        logger.info("Return all movies by country");
         return "list-movie";
     }
 
@@ -120,6 +134,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addActor(@PathVariable("id") long movie_id, @RequestParam("actor_id") long actor_id) {
         movieService.addActorToMovie(movie_id, actor_id);
+        logger.info("Add actor to movie");
         return "redirect:/movie/" + movie_id;
     }
 
@@ -127,6 +142,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String removeActor(@PathVariable("id") long movie_id, @RequestParam("actor_id") long actor_id) {
         movieService.removeActor(movie_id, actor_id);
+        logger.info("Remove actor from movie");
         return "redirect:/movie/" + movie_id;
     }
 
@@ -134,6 +150,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addGenre(@PathVariable("id") long movie_id, @RequestParam("genre_id") long genre_id) {
         movieService.addGenre(movie_id, genre_id);
+        logger.info("Add genre to movie");
         return "redirect:/movie/" + movie_id;
     }
 
@@ -141,6 +158,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String removeGenre(@PathVariable("id") long movie_id, @RequestParam("genre_id") long genre_id) {
         movieService.removeGenre(movie_id, genre_id);
+        logger.info("Remove genre from movie");
         return "redirect:/movie/" + movie_id;
     }
 
@@ -148,6 +166,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String setDirector(@PathVariable("id") long movie_id, @RequestParam("director_id") long director_id) {
         directorService.addMovie(director_id, movie_id);
+        logger.info("Set director");
         return "redirect:/movie/" + movie_id;
     }
 
@@ -155,6 +174,7 @@ public class MovieController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String removeDirector(@PathVariable("id") long movie_id, @PathVariable("director_id") long director_id) {
         directorService.removeMovie(director_id, movie_id);
+        logger.info("Unset director");
         return "redirect:/movie/" + movie_id;
     }
 

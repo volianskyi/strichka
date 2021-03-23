@@ -1,8 +1,10 @@
 package com.strichka.controller;
 
 import com.strichka.entity.User;
+import com.strichka.loging.LoggingAspect;
 import com.strichka.service.RoleService;
 import com.strichka.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger logger = Logger.getLogger(UserController.class);
+
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
@@ -33,6 +37,7 @@ public class UserController {
     public String create(Model model) {
         User newUser = new User();
         model.addAttribute("user", newUser);
+        logger.info("Open user save page...");
         return "user-form";
     }
 
@@ -44,6 +49,7 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.findById(2));
         userService.save(user);
+        logger.info("Created user " + user);
         return "redirect:/";
     }
 
@@ -54,6 +60,7 @@ public class UserController {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.findAll());
+        logger.info("Open user update page...");
         return "update-user";
     }
 
@@ -76,6 +83,7 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.findById(roleId));
         userService.save(user);
+        logger.info("Updated user " + user);
         return "redirect:/user/";
     }
 
@@ -84,6 +92,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER') and authentication.principal.id == #id")
     public String delete(@PathVariable long id) {
         userService.remove(userService.findById(id));
+        logger.info("Deleted user with id: " + id);
         return "redirect:/user";
     }
 
@@ -92,6 +101,7 @@ public class UserController {
     public String getAll(Model model) {
          List<User> users = userService.findAll();
          model.addAttribute("users", users);
+        logger.info("Return all users");
          return "list-user";
     }
 }

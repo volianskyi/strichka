@@ -2,8 +2,10 @@ package com.strichka.controller;
 
 import com.strichka.entity.Director;
 import com.strichka.entity.Movie;
+import com.strichka.loging.LoggingAspect;
 import com.strichka.service.DirectorService;
 import com.strichka.service.MovieService;
+import org.apache.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/director")
 public class DirectorController {
+
+  private static final Logger logger = Logger.getLogger(DirectorController.class);
 
   private final DirectorService directorService;
   private final MovieService movieService;
@@ -30,6 +34,7 @@ public class DirectorController {
   public String save(Model model) {
     Director director = new Director();
     model.addAttribute("director", director);
+    logger.info("Open director save page...");
     return "director-form";
   }
 
@@ -40,6 +45,7 @@ public class DirectorController {
       return "director-form";
     }
     directorService.save(director);
+    logger.info("Created director " + director);
     return "redirect:/director";
   }
 
@@ -48,6 +54,7 @@ public class DirectorController {
   public String update(@PathVariable long id, Model model) {
     Director director = directorService.findById(id);
     model.addAttribute("director", director);
+    logger.info("Open director update page...");
     return "update-director";
   }
 
@@ -58,6 +65,7 @@ public class DirectorController {
       return "update-director";
     }
     directorService.save(director);
+    logger.info("Updated director " + director);
     return "redirect:/director";
   }
 
@@ -66,6 +74,7 @@ public class DirectorController {
   public String read(@PathVariable long id, Model model) {
     Director director = directorService.getDirectorFetchMovie(id);
     model.addAttribute("director", director);
+    logger.info("Open director info page");
     return "director-info";
   }
 
@@ -75,6 +84,7 @@ public class DirectorController {
     Director director = directorService.getDirectorFetchMovie(id);
     unsetDirectorFromAllMovies(id, director);
     directorService.remove(director);
+    logger.info("Deleted director with id: " + id);
     return "redirect:/director";
   }
 
@@ -89,6 +99,7 @@ public class DirectorController {
   public String getAll(Model model) {
     List<Director> directorList = directorService.findAll();
     model.addAttribute("directors", directorList);
+    logger.info("Return all directors");
     return "list-director";
   }
 }

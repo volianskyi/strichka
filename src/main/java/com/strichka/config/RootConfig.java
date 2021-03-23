@@ -3,6 +3,7 @@ package com.strichka.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 @ComponentScan(basePackages = "com.strichka",
         excludeFilters = {@ComponentScan.Filter(EnableWebMvc.class), @ComponentScan.Filter(Controller.class)})
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 public class RootConfig {
 
