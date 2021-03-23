@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,11 +19,13 @@ public class Actor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank(message = "required")
+  @Pattern(regexp = "[A-Z][a-z]+",
+          message = "Invalid name")
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @NotBlank(message = "required")
+  @Pattern(regexp = "[A-Z][a-z]+",
+          message = "Invalid name")
   @Column(name = "last_name", nullable = false)
   private String lastName;
 

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,9 +58,23 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("user") User user, @RequestParam("roleId") long roleId) {
-        user.setRole(roleService.findById(roleId));
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam("oldPassword") String oldPassword,
+                         @RequestParam("roleId") long roleId, BindingResult result, Model model) {
+        User oldUser = userService.findById(user.getId());
+        if (result.hasErrors()) {
+            user.setRole(oldUser.getRole());
+            model.addAttribute("roles", roleService.findAll());
+            return "update-user";
+        }
+        if (!passwordEncoder.matches(oldPassword, oldUser.getPassword())) {
+            result.addError(new FieldError("user", "password", "Invalid old password"));
+            user.setRole(oldUser.getRole());
+            model.addAttribute("roles", roleService.findAll());
+            return "update-user";
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(roleService.findById(roleId));
         userService.save(user);
         return "redirect:/user/";
     }
