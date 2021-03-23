@@ -48,15 +48,15 @@ public class DirectorRepositoryImpl implements DirectorRepository {
 
     @Override
     public void addMovie(long director_id, long movie_id) {
-        Director tempDirector = entityManager.find(Director.class, director_id);
-        Movie tempMovie = entityManager.find(Movie.class, movie_id);
+        Director tempDirector = entityManager.getReference(Director.class, director_id);
+        Movie tempMovie = entityManager.getReference(Movie.class, movie_id);
         tempDirector.addMovie(tempMovie);
     }
 
     @Override
     public void removeMovie(long director_id, long movie_id) {
-        Director tempDirector = entityManager.find(Director.class, director_id);
-        Movie tempMovie = entityManager.find(Movie.class, movie_id);
+        Director tempDirector = entityManager.getReference(Director.class, director_id);
+        Movie tempMovie = entityManager.getReference(Movie.class, movie_id);
         tempDirector.removeMovie(tempMovie);
     }
 

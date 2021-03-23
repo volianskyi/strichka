@@ -53,29 +53,29 @@ public class MovieRepositoryImpl implements MovieRepository {
 
   @Override
   public void addActorToMovie(long movie_id, long actor_id) {
-    Movie movie = entityManager.find(Movie.class, movie_id);
-    Actor actor = entityManager.find(Actor.class, actor_id);
+    Movie movie = entityManager.getReference(Movie.class, movie_id);
+    Actor actor = entityManager.getReference(Actor.class, actor_id);
     movie.addActor(actor);
   }
 
   @Override
   public void removeActor(long movie_id, long actor_id) {
-    Movie movie = entityManager.find(Movie.class, movie_id);
-    Actor actor = entityManager.find(Actor.class, actor_id);
+    Movie movie = entityManager.getReference(Movie.class, movie_id);
+    Actor actor = entityManager.getReference(Actor.class, actor_id);
     movie.removeActor(actor);
   }
 
   @Override
   public void addGenre(long movie_id, long genre_id) {
-    Movie movie = entityManager.find(Movie.class, movie_id);
-    Genre genre = entityManager.find(Genre.class, genre_id);
+    Movie movie = entityManager.getReference(Movie.class, movie_id);
+    Genre genre = entityManager.getReference(Genre.class, genre_id);
     movie.addGenre(genre);
   }
 
   @Override
   public void removeGenre(long movie_id, long genre_id) {
-    Movie movie = entityManager.find(Movie.class, movie_id);
-    Genre genre = entityManager.find(Genre.class, genre_id);
+    Movie movie = entityManager.getReference(Movie.class, movie_id);
+    Genre genre = entityManager.getReference(Genre.class, genre_id);
     movie.removeGenre(genre);
   }
 
