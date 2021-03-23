@@ -73,5 +73,10 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.removeGenre(movie_id, genre_id);
     }
 
+    @Override
+    public List<Movie> findAllByCountry(String country) {
+        return movieRepository.findAllByCountry(country);
+    }
+
 
 }

@@ -23,4 +23,5 @@ public interface MovieService {
 
     void removeGenre(long movie_id, long genre_id);
 
+    List<Movie> findAllByCountry(String country);
 }

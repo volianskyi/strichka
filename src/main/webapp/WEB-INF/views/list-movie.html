@@ -69,7 +69,7 @@
                 <tr th:each="movie : ${movies}">
                     <td><a th:href="@{'/movie/'+ ${movie.id}}" th:text="${movie.title}"></a></td>
                     <td th:text="${#temporals.format(movie.releaseDate, 'yyyy')}"></td>
-                    <td th:text="${movie.country}"></td>
+                    <td><a th:href="@{|/country/${movie.country}|}" th:text="${movie.country}"></a></td>
                     <span sec:authorize="hasAuthority('ADMIN')">
                     <td>
                         <a th:href="@{|/update/${movie.id}|}">Edit</a>

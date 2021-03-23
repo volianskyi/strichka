@@ -108,6 +108,14 @@ public class MovieController {
         return "list-movie";
     }
 
+    @GetMapping("/country/{country}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public String getAllByCountry(@PathVariable String country, Model model) {
+        List<Movie> movies = movieService.findAllByCountry(country);
+        model.addAttribute("movies", movies);
+        return "list-movie";
+    }
+
     @GetMapping("/movie/{id}/add-actor/")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addActor(@PathVariable("id") long movie_id, @RequestParam("actor_id") long actor_id) {

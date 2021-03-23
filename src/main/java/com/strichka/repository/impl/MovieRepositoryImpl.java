@@ -79,4 +79,11 @@ public class MovieRepositoryImpl implements MovieRepository {
     movie.removeGenre(genre);
   }
 
+  @Override
+  public List<Movie> findAllByCountry(String country) {
+    return entityManager.createQuery("select m from Movie m where m.country = :country", Movie.class)
+            .setParameter("country", country)
+            .getResultList();
+  }
+
 }
