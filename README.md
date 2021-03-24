@@ -1,7 +1,7 @@
 # strichka
 ## Spring MVC project
-Simple mvc project about movies data. You can do crud operation on such entitшes movie, actor, director, user. 
-Add, update, delete relations between movies and actors, genres, directors. Sort movies by country.
+Simple mvc project about movies data. You can do crud operation on such entities movie, actor, director, user. 
+Add, update, delete relations between movies, actors, genres and directors. Sort movies by country.
 
 ## Used technologies
 * Java 11
