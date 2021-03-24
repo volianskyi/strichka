@@ -30,7 +30,7 @@ Project has two user with different roles:
 Admin has access to all resources, permission to change entities.
 User can only read data and update his account by himself.
 
-#Some screenshots:
+# Some screenshots:
 <img src="https://i.imgur.com/YLElWHq.png" />
 <img src="https://i.imgur.com/ETw2DJ6.png" />
 <img src="https://i.imgur.com/IksgWyB.png" />
