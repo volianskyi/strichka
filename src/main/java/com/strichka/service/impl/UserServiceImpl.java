@@ -5,11 +5,11 @@ import com.strichka.entity.User;
 import com.strichka.repository.UserRepository;
 import com.strichka.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Transactional
@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username);
-        if (user == null) {
+        try {
+            return userRepository.getUserByUsername(username);
+        } catch (NoResultException e) {
             throw new UsernameNotFoundException("User not Found!");
         }
-        return user;
     }
 }

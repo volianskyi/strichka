@@ -65,9 +65,10 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("user") User user,
+    public String update(@Validated @ModelAttribute("user") User user,
+                         BindingResult result, Model model,
                          @RequestParam("oldPassword") String oldPassword,
-                         @RequestParam("roleId") long roleId, BindingResult result, Model model) {
+                         @RequestParam(value = "roleId", required = false, defaultValue = "2") long roleId) {
         User oldUser = userService.findById(user.getId());
         if (result.hasErrors()) {
             user.setRole(oldUser.getRole());

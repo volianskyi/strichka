@@ -90,11 +90,11 @@
                 <input type="password" class="form-control" th:field="*{password}" placeholder="password" required/>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" sec:authorize="hasAuthority('ADMIN')" >
                 <select class="form-control" id="role" name="roleId">
                 <span th:each="role : ${roles}">
                     <option th:if="${role.id == user.role.id}" th:value="${role.id}" th:selected="${true}" th:text="${role.roleType}"></option>
-                    <option sec:authorize="hasAuthority('ADMIN')" th:text="${role.roleType}" th:unless="${role.id == user.role.id}"
+                    <option th:text="${role.roleType}" th:unless="${role.id == user.role.id}"
                             th:value="${role.id}"></option>
                 </span>
                 </select>
