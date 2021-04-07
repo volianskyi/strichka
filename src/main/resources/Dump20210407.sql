@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `strichka` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `strichka`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: strichka
@@ -29,7 +27,7 @@ CREATE TABLE `actor` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +52,7 @@ CREATE TABLE `director` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,8 +106,8 @@ CREATE TABLE `movie` (
   `director_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_movie_director` (`director_id`),
-  CONSTRAINT `FK_movie_director` FOREIGN KEY (`director_id`) REFERENCES `director` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_movie_director` FOREIGN KEY (`director_id`) REFERENCES `director` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,8 +132,8 @@ CREATE TABLE `movie_actor` (
   `actor_id` bigint NOT NULL,
   PRIMARY KEY (`movie_id`,`actor_id`),
   KEY `FK_movie_actor_actor` (`actor_id`),
-  CONSTRAINT `FK_movie_actor_actor` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`),
-  CONSTRAINT `FK_movie_actor_movie` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`)
+  CONSTRAINT `FK_movie_actor_actor` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_movie_actor_movie` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -145,7 +143,7 @@ CREATE TABLE `movie_actor` (
 
 LOCK TABLES `movie_actor` WRITE;
 /*!40000 ALTER TABLE `movie_actor` DISABLE KEYS */;
-INSERT INTO `movie_actor` VALUES (32,5),(29,9),(29,10),(29,11),(31,12),(31,13),(32,14),(32,15),(33,16),(33,17);
+INSERT INTO `movie_actor` VALUES (32,5),(29,9),(29,10),(29,11),(31,12),(31,13),(32,14),(32,15);
 /*!40000 ALTER TABLE `movie_actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-24 14:34:59
+-- Dump completed on 2021-04-07 14:14:48

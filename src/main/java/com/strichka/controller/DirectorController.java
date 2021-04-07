@@ -81,17 +81,9 @@ public class DirectorController {
   @GetMapping("/delete/{id}")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String delete(@PathVariable long id) {
-    Director director = directorService.getDirectorFetchMovie(id);
-    unsetDirectorFromAllMovies(id, director);
-    directorService.remove(director);
+    directorService.remove(directorService.findById(id));
     logger.info("Deleted director with id: " + id);
     return "redirect:/director";
-  }
-
-  private void unsetDirectorFromAllMovies(long id, Director director) {
-    for (Movie movie : director.getMovies()) {
-      directorService.removeMovie(id, movie.getId());
-    }
   }
 
   @GetMapping
