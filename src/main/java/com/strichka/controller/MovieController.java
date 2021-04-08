@@ -99,6 +99,10 @@ public class MovieController {
         if (result.hasErrors()) {
             return "update-movie";
         }
+        Movie oldMovie = movieService.findMovieByIdFetchActorsAndGenres(movie.getId());
+        movie.setDirector(oldMovie.getDirector());
+        movie.setActors(oldMovie.getActors());
+        movie.setGenres(oldMovie.getGenres());
         movieService.save(movie);
         logger.info("Updated movie " + movie);
         return "redirect:/movie/" + movie.getId();

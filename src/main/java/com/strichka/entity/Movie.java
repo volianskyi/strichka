@@ -40,16 +40,14 @@ public class Movie {
   @Column(name = "release_date", nullable = false)
   private LocalDate releaseDate;
 
-  @Setter(AccessLevel.PRIVATE)
-  @ManyToMany(cascade = {CascadeType.MERGE})
+  @ManyToMany
   @JoinTable(name = "movie_genre",
           joinColumns = @JoinColumn(name = "movie_id"),
           inverseJoinColumns = @JoinColumn(name = "genre_id")
   )
   private Set<Genre> genres = new HashSet<>();
 
-  @Setter(AccessLevel.PRIVATE)
-  @ManyToMany(cascade = {CascadeType.MERGE})
+  @ManyToMany
   @JoinTable(name = "movie_actor",
     joinColumns = @JoinColumn(name = "movie_id"),
     inverseJoinColumns = @JoinColumn(name = "actor_id")
