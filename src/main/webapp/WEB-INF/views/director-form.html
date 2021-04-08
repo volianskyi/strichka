@@ -69,6 +69,11 @@
                 <span class="form-control is-invalid" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
             </div>
 
+            <div class="mb-3">
+                <input type="text" class="form-control" th:field="*{imageUrl}" placeholder="image url*">
+                <span class="form-control is-invalid" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></span>
+            </div>
+
             <button class="btn btn-lg btn-dark btn-block" type="submit">Save</button>
         </form>
     </div>

@@ -29,6 +29,11 @@ public class Director {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
+  @Pattern(regexp = "(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)",
+          message = "Invalid url, please put another one")
+  @Column(name = "image_url")
+  private String imageUrl;
+
   @Setter(AccessLevel.PRIVATE)
   @OneToMany(mappedBy = "director")
   private Set<Movie> movies = new HashSet<>();

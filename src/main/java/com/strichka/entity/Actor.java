@@ -29,6 +29,11 @@ public class Actor {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
+  @Pattern(regexp = "(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)",
+          message = "Invalid url, please put another one")
+  @Column(name = "image_url")
+  private String imageUrl;
+
   @Setter(AccessLevel.PRIVATE)
   @ManyToMany(mappedBy = "actors")
   private Set<Movie> movies = new HashSet<>();
