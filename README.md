@@ -35,3 +35,4 @@ User can only read data and update his account by himself.
 <img src="https://i.imgur.com/ETw2DJ6.png" />
 <img src="https://i.imgur.com/IksgWyB.png" />
 <img src="https://i.imgur.com/VhERbQ9.png" />
+<img src="https://i.imgur.com/AJ1rVt2.png" />

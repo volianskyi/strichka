@@ -26,8 +26,9 @@ CREATE TABLE `actor` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +37,7 @@ CREATE TABLE `actor` (
 
 LOCK TABLES `actor` WRITE;
 /*!40000 ALTER TABLE `actor` DISABLE KEYS */;
-INSERT INTO `actor` VALUES (4,'Bradli','Cooper'),(5,'Margot','Robbie'),(6,'Morgan','Freeman'),(9,'Tom','Hanks'),(10,'Robin','Wright'),(11,'Gary','Sinise'),(12,'Henry','Fonda'),(13,'Lee','Cobb'),(14,'Brad','Pitt'),(15,'Leonardo','DiCaprio'),(16,'Samuel','Jackson'),(17,'Michael','Madsen');
+INSERT INTO `actor` VALUES (4,'Bradli','Cooper','https://cdn.britannica.com/57/199057-050-CCE5410A/Bradley-Cooper-2008.jpg'),(5,'Margot','Robbie','https://i.pinimg.com/originals/82/29/4d/82294d86ba859923b434bb4a78e7a0f0.jpg'),(6,'Morgan','Freeman','https://upload.wikimedia.org/wikipedia/commons/e/e4/Morgan_Freeman_Deauville_2018.jpg'),(9,'Tom','Hanks','https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_.jpg'),(10,'Robin','Wright','https://upload.wikimedia.org/wikipedia/commons/d/d9/Robin_Wright_Cannes_2017_%28cropped%29.jpg'),(11,'Gary','Sinise','https://upload.wikimedia.org/wikipedia/commons/9/90/Gary_Sinise_2011_%28cropped%29.jpg'),(12,'Henry','Fonda','https://upload.wikimedia.org/wikipedia/commons/0/0c/Henry_Fonda_in_Warlock.jpg'),(13,'Lee','Cobb','https://upload.wikimedia.org/wikipedia/commons/b/ba/Lee_J._Cobb_1960s.JPG'),(14,'Brad','Pitt','https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Brad_Pitt_2019_by_Glenn_Francis.jpg/1200px-Brad_Pitt_2019_by_Glenn_Francis.jpg'),(15,'Leonardo','DiCaprio','https://upload.wikimedia.org/wikipedia/commons/4/46/Leonardo_Dicaprio_Cannes_2019.jpg'),(16,'Samuel','Jackson','https://upload.wikimedia.org/wikipedia/commons/a/a9/Samuel_L._Jackson_2019_by_Glenn_Francis.jpg'),(17,'Michael','Madsen','https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Michael_Madsen_by_Gage_Skidmore.jpg/1200px-Michael_Madsen_by_Gage_Skidmore.jpg');
 /*!40000 ALTER TABLE `actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,6 +52,7 @@ CREATE TABLE `director` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -61,7 +63,7 @@ CREATE TABLE `director` (
 
 LOCK TABLES `director` WRITE;
 /*!40000 ALTER TABLE `director` DISABLE KEYS */;
-INSERT INTO `director` VALUES (7,'Robert','Zemeckis'),(8,'Sidney','Lumet'),(9,'Quentin','Tarantino'),(10,'Sergio','Leone');
+INSERT INTO `director` VALUES (7,'Robert','Zemeckis','https://static.hollywoodreporter.com/sites/default/files/2012/11/zemeckis_a_0.jpg'),(8,'Sidney','Lumet','https://cdn.britannica.com/93/208793-050-3E4EC101/Sidney-Lumet-Academy-Award-lifetime-achievement-2005.jpg'),(9,'Quentin','Tarantino','https://i.pinimg.com/originals/e1/d1/cf/e1d1cfa576a21c9ebe39fcd26111c75d.jpg'),(10,'Sergio','Leone','https://upload.wikimedia.org/wikipedia/commons/c/c1/Sergio_Leone_1975.jpg');
 /*!40000 ALTER TABLE `director` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,8 +134,8 @@ CREATE TABLE `movie_actor` (
   `actor_id` bigint NOT NULL,
   PRIMARY KEY (`movie_id`,`actor_id`),
   KEY `FK_movie_actor_actor` (`actor_id`),
-  CONSTRAINT `FK_movie_actor_actor` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_movie_actor_movie` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_movie_actor_actor` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `FK_movie_actor_movie` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -143,7 +145,7 @@ CREATE TABLE `movie_actor` (
 
 LOCK TABLES `movie_actor` WRITE;
 /*!40000 ALTER TABLE `movie_actor` DISABLE KEYS */;
-INSERT INTO `movie_actor` VALUES (32,5),(29,9),(29,10),(29,11),(31,12),(31,13),(32,14),(32,15);
+INSERT INTO `movie_actor` VALUES (32,5),(29,9),(29,10),(29,11),(31,12),(31,13),(32,14),(32,15),(33,16),(33,17);
 /*!40000 ALTER TABLE `movie_actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,6 +172,7 @@ CREATE TABLE `movie_genre` (
 
 LOCK TABLES `movie_genre` WRITE;
 /*!40000 ALTER TABLE `movie_genre` DISABLE KEYS */;
+INSERT INTO `movie_genre` VALUES (29,8),(31,8),(35,21);
 /*!40000 ALTER TABLE `movie_genre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 14:14:48
+-- Dump completed on 2021-04-08 10:43:45
